@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.0)
 project (material-decoration)
 
-add_definitions (-Wall -Werror)
+add_definitions (-Wall)
 
 include (FeatureSummary)
 find_package (ECM 0.0.9 REQUIRED NO_MODULE)

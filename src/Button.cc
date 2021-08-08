@@ -312,116 +312,72 @@ void Button::setPenWidth(QPainter *painter, const qreal gridUnit, const qreal sc
     painter->setPen(pen);
 }
 
-QColor Button::backgroundColor() const
-{
-    const auto *deco = qobject_cast<Decoration *>(decoration());
-    if (!deco) {
-        return {};
-    }
 
-    //--- CloseButton
-    if (type() == KDecoration2::DecorationButtonType::Close) {
-        auto *decoratedClient = deco->client().toStrongRef().data();
-        const QColor hoveredColor = decoratedClient->color(
-            KDecoration2::ColorGroup::Warning,
-            KDecoration2::ColorRole::Foreground
-        );
-        QColor normalColor = QColor(hoveredColor);
-        normalColor.setAlphaF(0);
+    QColor Button::backgroundColor() const
+    {
+        auto d = qobject_cast<Decoration*>( decoration() );
+        if( !d ) {
 
-        if (isPressed()) {
-            const QColor pressedColor = decoratedClient->color(
-                KDecoration2::ColorGroup::Warning,
-                KDecoration2::ColorRole::Foreground
-            ).lighter();
-            return KColorUtils::mix(normalColor, pressedColor, m_transitionValue);
+            return QColor();
+
         }
 
-        if (isHovered()) {
-            return KColorUtils::mix(normalColor, hoveredColor, m_transitionValue);
+        
+        QColor returnVal;
+        QColor normalColor = QColor(0,0,0,0);
+        auto c = d->client().data();
+        QColor redColor( c->color( KDecoration2::ColorGroup::Warning, KDecoration2::ColorRole::Foreground ) );
+
+        
+
+        if( isPressed() ) {
+
+            if( type() == KDecoration2::DecorationButtonType::Close ) returnVal = redColor.darker();
+            else returnVal = KColorUtils::mix( normalColor, d->titleBarForegroundColor(), 0.3 );
+
+        } else if( ( type() == KDecoration2::DecorationButtonType::KeepBelow || type() == KDecoration2::DecorationButtonType::KeepAbove || type() == KDecoration2::DecorationButtonType::Shade ) && isChecked() ) {
+
+            returnVal = d->titleBarForegroundColor();
+
+        } else if( isHovered() ) {
+
+            if( type() == KDecoration2::DecorationButtonType::Close ) return c->isActive() ? redColor.lighter() : redColor;
+            else returnVal = d->titleBarForegroundColor();
+        } else {
+            returnVal = type() == KDecoration2::DecorationButtonType::Close ?
+                redColor : normalColor;
         }
+
+
+        return returnVal;
     }
 
-    //--- Checked
-    if (isChecked() && type() != KDecoration2::DecorationButtonType::Maximize) {
-        const QColor normalColor = deco->titleBarForegroundColor();
+    QColor Button::foregroundColor() const
+    {
+        auto d = qobject_cast<Decoration*>( decoration() );
+        if( !d ) {
 
-        if (isPressed()) {
-            const QColor pressedColor = KColorUtils::mix(
-                deco->titleBarBackgroundColor(),
-                deco->titleBarForegroundColor(),
-                0.7);
-            return KColorUtils::mix(normalColor, pressedColor, m_transitionValue);
+            return QColor();
+
+        } else if( isPressed() ) {
+
+            return d->titleBarBackgroundColor();
+
+        } else if( ( type() == KDecoration2::DecorationButtonType::KeepBelow || type() == KDecoration2::DecorationButtonType::KeepAbove || type() == KDecoration2::DecorationButtonType::Shade ) && isChecked() ) {
+
+            return d->titleBarForegroundColor();
+
+        } else if( isHovered() ) {
+
+            return d->titleBarBackgroundColor();
+
+        } else {
+
+            return d->titleBarForegroundColor();
+
         }
-        if (isHovered()) {
-            const QColor hoveredColor = KColorUtils::mix(
-                deco->titleBarBackgroundColor(),
-                deco->titleBarForegroundColor(),
-                0.8);
-            return KColorUtils::mix(normalColor, hoveredColor, m_transitionValue);
-        }
-        return normalColor;
+        return d->titleBarForegroundColor();
     }
-
-    //--- Normal
-    const QColor hoveredColor = KColorUtils::mix(
-        deco->titleBarBackgroundColor(),
-        deco->titleBarForegroundColor(),
-        0.2);
-    QColor normalColor = QColor(hoveredColor);
-    normalColor.setAlphaF(0);
-
-    if (isPressed()) {
-        const QColor pressedColor = KColorUtils::mix(
-            deco->titleBarBackgroundColor(),
-            deco->titleBarForegroundColor(),
-            0.3);
-        return KColorUtils::mix(normalColor, pressedColor, m_transitionValue);
-    }
-    if (isHovered()) {
-        return KColorUtils::mix(normalColor, hoveredColor, m_transitionValue);
-    }
-    return normalColor;
-}
-
-QColor Button::foregroundColor() const
-{
-    const auto *deco = qobject_cast<Decoration *>(decoration());
-    if (!deco) {
-        return {};
-    }
-
-    //--- Checked
-    if (isChecked() && type() != KDecoration2::DecorationButtonType::Maximize) {
-        QColor activeColor = KColorUtils::mix(
-            deco->titleBarBackgroundColor(),
-            deco->titleBarForegroundColor(),
-            0.2);
-
-        if (isPressed() || isHovered()) {
-            return KColorUtils::mix(
-                activeColor,
-                deco->titleBarBackgroundColor(),
-                m_transitionValue);
-        }
-        return activeColor;
-    }
-
-    //--- Normal
-    QColor normalColor = KColorUtils::mix(
-        deco->titleBarBackgroundColor(),
-        deco->titleBarForegroundColor(),
-        0.8);
-
-    if (isPressed() || isHovered()) {
-        return KColorUtils::mix(
-            normalColor,
-            deco->titleBarForegroundColor(),
-            m_transitionValue);
-    }
-
-    return normalColor;
-}
 
 
 QRectF Button::contentArea() const
