@@ -43,9 +43,12 @@ public:
         Q_UNUSED(button)
         Q_UNUSED(gridUnit)
 
-        painter->drawLine(
-            iconRect.left(), iconRect.center().y(),
-            iconRect.right(), iconRect.center().y());
+        const QPointF origin= iconRect.topLeft() - QPointF(5,5);
+        painter->drawPolyline( QVector<QPointF>{
+            origin + QPointF( 4, 7 ),
+            origin + QPointF( 9, 12 ),
+            origin + QPointF( 14, 7 ) });
+        
     }
 };
 
