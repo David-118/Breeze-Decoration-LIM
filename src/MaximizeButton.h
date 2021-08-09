@@ -44,22 +44,28 @@ public:
            painter->setRenderHints(QPainter::Antialiasing, true);
 
         button->setPenWidth(painter, gridUnit, 1.10);
-        const QPointF origin= iconRect.topLeft() - QPointF(5,5);
+        
+        QPointF center = iconRect.center();
+
+
                     if( button->isChecked() )
                     {
 
 
                         painter->drawPolygon( QVector<QPointF>{
-                            origin + QPointF( 4, 9 ),
-                            origin + QPointF( 9, 4 ),
-                            origin + QPointF( 14, 9 ),
-                            origin + QPointF( 9, 14 )} );
-
+                            QPointF(iconRect.left(), center.y()),
+                            QPointF(center.x(), iconRect.top()),
+                            QPointF(iconRect.right(), center.y()),
+                            QPointF(center.x(), iconRect.bottom()),
+                        });
                     } else {
+                        float top = (iconRect.top() + center.y()) / 2; 
+                        float bottom = (iconRect.bottom() + center.y()) / 2; 
                         painter->drawPolyline( QVector<QPointF>{
-                            origin + QPointF( 4, 11 ),
-                            origin + QPointF( 9, 6 ),
-                            origin + QPointF( 14, 11 )});
+                            QPointF(iconRect.left(), bottom),
+                            QPointF(center.x(), top),
+                            QPointF(iconRect.right(), bottom),
+                        });
                     }
     }
 };

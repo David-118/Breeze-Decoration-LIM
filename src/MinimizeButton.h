@@ -42,14 +42,16 @@ public:
     static void paintIcon(Button *button, QPainter *painter, const QRectF &iconRect, const qreal gridUnit) {
         Q_UNUSED(button)
         Q_UNUSED(gridUnit)
-
-        const QPointF origin= iconRect.topLeft() - QPointF(5,5);
-        painter->drawPolyline( QVector<QPointF>{
-            origin + QPointF( 4, 7 ),
-            origin + QPointF( 9, 12 ),
-            origin + QPointF( 14, 7 ) });
         
+        QPointF center = iconRect.center();
+        float top = (iconRect.top() + center.y()) / 2; 
+        float bottom = (iconRect.bottom() + center.y()) / 2; 
+
+        painter->drawPolyline( QVector<QPointF>{
+            QPointF(iconRect.left(), top),
+            QPointF(center.x(), bottom),
+            QPointF(iconRect.right(), top),
+        });
     }
 };
-
 } // namespace Material

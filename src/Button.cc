@@ -183,10 +183,31 @@ void Button::paint(QPainter *painter, const QRect &repaintRegion)
     const QRectF contentRect = contentArea();
 
     const qreal iconScale = contentRect.height()/24;
-    int iconSize = 8;
+
+       int iconSize;
+    if (m_isGtkButton) {
+        // See: https://github.com/Zren/material-decoration/issues/22
+        // kde-gtk-config has a kded5 module which renders the buttons to svgs for gtk.
+
+        // The svgs are 50x50, located at ~/.config/gtk-3.0/assets/
+        // They are usually scaled down to just 18x18 when drawn in gtk headerbars.
+        // The Gtk theme already has a fairly large amount of padding, as
+        // the Breeze theme doesn't currently follow fitt's law. So use less padding
+        // around the icon so that the icon is not a very tiny 8px.
+
+        // 15% top/bottom padding, 70% leftover for the icon.
+        // 24 = 3.5 topPadding + 17 icon + 3.5 bottomPadding
+        // 17/24 * 18 = 12.75
+        iconSize = qRound(iconScale * 15);
+    } else {
+        // 30% top/bottom padding, 40% leftover for the icon.
+        // 24 = 7 topPadding + 10 icon + 7 bottomPadding
+        iconSize = qRound(iconScale * 10);
+    }
+    iconSize *= 0.8;
 
     QRectF iconRect = QRectF(0, 0, iconSize, iconSize);
-    QRectF backgroundRect = QRectF(0,0, 18, 18);
+    QRectF backgroundRect = QRectF(0,0, iconSize * 2, iconSize * 2);
     iconRect.moveCenter(contentRect.center().toPoint());
     backgroundRect.moveCenter(contentRect.center().toPoint());
 
