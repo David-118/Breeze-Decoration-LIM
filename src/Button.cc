@@ -344,8 +344,11 @@ void Button::setPenWidth(QPainter *painter, const qreal gridUnit, const qreal sc
             if( type() == KDecoration2::DecorationButtonType::Close ) return c->isActive() ? redColor.lighter() : redColor;
             else returnVal = d->titleBarForegroundColor();
         } else {
-            returnVal = type() == KDecoration2::DecorationButtonType::Close ?
-                redColor : normalColor;
+            if (type() == KDecoration2::DecorationButtonType::Close)
+                returnVal = c->isActive() ? redColor : d->titleBarForegroundColor();
+            else {
+                returnVal = normalColor;
+            }
         }
 
 
@@ -371,6 +374,8 @@ void Button::setPenWidth(QPainter *painter, const qreal gridUnit, const qreal sc
 
             return d->titleBarBackgroundColor();
 
+        } else if (type() == KDecoration2::DecorationButtonType::Close) {
+            return d->titleBarBackgroundColor();
         } else {
 
             return d->titleBarForegroundColor();
