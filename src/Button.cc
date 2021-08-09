@@ -304,7 +304,7 @@ void Button::setHeight(int buttonHeight)
 {
     // For simplicity, don't count the 1.33:1 scaling in the left/right padding.
     // The left/right padding is mainly for the border offset alignment.
-    updateSize(qRound(buttonHeight * 1.33), buttonHeight);
+    updateSize(buttonHeight, buttonHeight);
 }
 
 qreal Button::iconLineWidth(const qreal gridUnit) const
@@ -342,7 +342,7 @@ void Button::setPenWidth(QPainter *painter, const qreal gridUnit, const qreal sc
         if( isPressed() ) {
 
             if( type() == KDecoration2::DecorationButtonType::Close ) returnVal = redColor.darker();
-            else returnVal = KColorUtils::mix( normalColor, d->titleBarForegroundColor(), 0.3 );
+            else returnVal = KColorUtils::mix( normalColor, d->titleBarForegroundColor(), 0.5 );
 
         } else if( ( type() == KDecoration2::DecorationButtonType::KeepBelow || type() == KDecoration2::DecorationButtonType::KeepAbove || type() == KDecoration2::DecorationButtonType::Shade ) && isChecked() ) {
 
