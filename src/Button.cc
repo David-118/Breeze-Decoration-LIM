@@ -337,25 +337,25 @@ void Button::setPenWidth(QPainter *painter, const qreal gridUnit, const qreal sc
         auto c = d->client().data();
         QColor redColor( c->color( KDecoration2::ColorGroup::Warning, KDecoration2::ColorRole::Foreground ) );
 
-        
-
-        if( isPressed() ) {
+        if (type() == KDecoration2::DecorationButtonType::Menu) {
+            returnVal= normalColor;
+        } else if( isPressed() ) {
 
             if( type() == KDecoration2::DecorationButtonType::Close ) returnVal = redColor.darker();
             else returnVal = KColorUtils::mix( normalColor, d->titleBarForegroundColor(), 0.5 );
 
-        } else if( ( type() == KDecoration2::DecorationButtonType::KeepBelow || type() == KDecoration2::DecorationButtonType::KeepAbove || type() == KDecoration2::DecorationButtonType::Shade ) && isChecked() ) {
+        } else if( isChecked() && type() != KDecoration2::DecorationButtonType::Maximize ) {
 
             returnVal = d->titleBarForegroundColor();
 
         } else if( isHovered() ) {
 
-            if( type() == KDecoration2::DecorationButtonType::Close ) return c->isActive() ? redColor.lighter() : redColor;
-            else returnVal = d->titleBarForegroundColor();
+            if( type() == KDecoration2::DecorationButtonType::Close ) {return c->isActive() ? redColor.lighter() : redColor;}
+            else {returnVal = d->titleBarForegroundColor();}
         } else {
-            if (type() == KDecoration2::DecorationButtonType::Close)
+            if (type() == KDecoration2::DecorationButtonType::Close) {
                 returnVal = c->isActive() ? redColor : d->titleBarForegroundColor();
-            else {
+            } else {
                 returnVal = normalColor;
             }
         }
@@ -375,9 +375,9 @@ void Button::setPenWidth(QPainter *painter, const qreal gridUnit, const qreal sc
 
             return d->titleBarBackgroundColor();
 
-        } else if( ( type() == KDecoration2::DecorationButtonType::KeepBelow || type() == KDecoration2::DecorationButtonType::KeepAbove || type() == KDecoration2::DecorationButtonType::Shade ) && isChecked() ) {
+        } else if( isChecked() && type() != KDecoration2::DecorationButtonType::Maximize) {
 
-            return d->titleBarForegroundColor();
+            return d->titleBarBackgroundColor();
 
         } else if( isHovered() ) {
 
