@@ -1,11 +1,15 @@
 
 ![Demo](data/preview.png)
 
-## breeze-decoration
+## Breeze Decoration (with LIM support)
 
 Breeze window decoration theme for KWin.
 
 Please note that I have only updated the close button, maximize button and minimze button to match breeze
+
+This project is a fork of [https://github.com/Zren/material-decoration/](https://github.com/Zren/material-decoration/)
+
+Much of the new code can be is a modfied from [https://github.com/KDE/breeze/](https://github.com/KDE/breeze/)
 
 ### Locally Integrated Menus
 
