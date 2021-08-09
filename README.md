@@ -1,40 +1,22 @@
-# Currently This is a massive work in progress don't use
 
 ![Demo](data/preview.png)
 
-## material-decoration
+## breeze-decoration
 
-Material-ish window decoration theme for KWin.
+Breeze window decoration theme for KWin.
+
+Please note that I have only updated the close button, maximize button and minimze button to match breeze
 
 ### Locally Integrated Menus
 
 This hides the AppMenu icon button and draws the menu in the titlebar.
 
-![](https://i.imgur.com/oFOVWjV.png)
+![](data/lim.png)
 
 Make sure you add the AppMenu button in System Settings > Application Style > Window Decorations > Buttons Tab.
 
-TODO/Bugs ([Issue #1](https://github.com/Zren/material-decoration/issues/1)):
-
-* Open Submenu on Shortcut (eg: `Alt+F`)
-* Display mnemonics when holding `Alt`
-
-Upstream LIM discussion in the KDE Bug report: https://bugs.kde.org/show_bug.cgi?id=375951#c27
 
 ### Installation
-
-#### Binary package
-
-- Arch/Manjaro (AUR):  
-  Install the `material-kwin-decoration-git` AUR package.  
-  https://aur.archlinux.org/packages/material-kwin-decoration-git/
-
-- openSUSE:  
-  https://build.opensuse.org/package/show/home:trmdi/material-decoration
-```
-sudo zypper ar obs://home:trmdi trmdi
-sudo zypper in -r trmdi material-decoration
-```
 
 #### Building from source
 Build dependencies:
@@ -73,8 +55,6 @@ QT_LOGGING_RULES="*=false;kdecoration.material=true" kstart5 -- kwin_x11 --repla
 ```
 
 ### Update
-
-On 2020 June 18, the kdecoration id was changed from `zzag` to `zren`. You will need to re-select `Material` in System Settings > Application Style > Window Decoration. KWin will fallback to `Breeze` if you forget to do this.
 
 #### Building from source
 
