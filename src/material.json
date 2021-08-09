@@ -2,8 +2,8 @@
     "KPlugin": {
         "Description": "Window decoration",
         "EnabledByDefault": false,
-        "Id": "com.github.zren.material",
-        "Name": "Material",
+        "Id": "com.github.david118.breezelim",
+        "Name": "Breeze (LIM)",
         "ServiceTypes": [
             "org.kde.kdecoration2"
         ]

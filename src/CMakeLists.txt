@@ -74,11 +74,11 @@ kconfig_add_kcfg_files(decoration_SRCS
     InternalSettings.kcfgc
 )
 
-add_library (materialdecoration MODULE
+add_library (breezelimdeco MODULE
     ${decoration_SRCS}
 )
 
-target_link_libraries (materialdecoration
+target_link_libraries (breezelimdeco
     PUBLIC
         dbusmenuqt
         Qt5::Core
@@ -99,5 +99,5 @@ target_link_libraries (materialdecoration
         KDecoration2::KDecoration
 )
 
-install (TARGETS materialdecoration
+install (TARGETS breezelimdeco
          DESTINATION ${PLUGIN_INSTALL_DIR}/org.kde.kdecoration2)

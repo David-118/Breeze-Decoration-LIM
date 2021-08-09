@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.0)
-project (material-decoration)
+project (breeze-lim-decoration)
 
 add_definitions (-Wall)
 
