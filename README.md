@@ -36,8 +36,8 @@ Download the source:
 
 ```
 cd ~/Downloads
-git clone https://github.com/Zren/material-decoration.git
-cd material-decoration
+git clone https://github.com/Davd-118/Breeze-Decorations-LIM
+cd Breeze-Decorations-LIM
 ```
 
 Then compile the decoration, and install it:
@@ -50,7 +50,7 @@ make
 sudo make install
 ```
 
-Select Material in System Settings > Application Style > Window Decorations.
+Select Breeze (LIM) in System Settings > Application Style > Window Decorations.
 
 To test changes, restart `kwin_x11` with:
 
