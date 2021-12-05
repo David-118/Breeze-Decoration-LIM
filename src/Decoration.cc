@@ -410,8 +410,7 @@ void Decoration::updateResizeBorders()
 
 void Decoration::updateTitleBar()
 {
-    auto *decoratedClient = client().toStrongRef().data();
-    setTitleBar(QRect(0, 0, decoratedClient->width(), titleBarHeight()));
+    setTitleBar(titleBarRect());
 }
 
 void Decoration::updateTitleBarHoverState()
@@ -431,9 +430,36 @@ void Decoration::updateTitleBarHoverState()
 
 void Decoration::setButtonGroupHeight(KDecoration2::DecorationButtonGroup *buttonGroup, int buttonHeight)
 {
+    // int vertPadding = buttonPadding();
     for (int i = 0; i < buttonGroup->buttons().length(); i++) {
-        auto *button = qobject_cast<Button *>(buttonGroup->buttons().value(i));
-        button->setHeight(buttonHeight);
+        KDecoration2::DecorationButton* decoButton = buttonGroup->buttons().value(i);
+        auto *button = qobject_cast<Button *>(decoButton);
+        if (button) {
+            button->setHeight(buttonHeight);
+            // button->setVertPadding(vertPadding);
+        }
+    }
+}
+
+void Decoration::setButtonGroupHorzPadding(KDecoration2::DecorationButtonGroup *buttonGroup, int value)
+{
+    for (int i = 0; i < buttonGroup->buttons().length(); i++) {
+        KDecoration2::DecorationButton* decoButton = buttonGroup->buttons().value(i);
+        auto *button = qobject_cast<Button *>(decoButton);
+        if (button) {
+            button->setHorzPadding(value);
+        }
+    }
+}
+
+void Decoration::setButtonGroupVertPadding(KDecoration2::DecorationButtonGroup *buttonGroup, int value)
+{
+    for (int i = 0; i < buttonGroup->buttons().length(); i++) {
+        KDecoration2::DecorationButton* decoButton = buttonGroup->buttons().value(i);
+        auto *button = qobject_cast<Button *>(decoButton);
+        if (button) {
+            button->setVertPadding(value);
+        }
     }
 }
 
@@ -481,6 +507,7 @@ void Decoration::updateButtonsGeometry()
             -captionOffset,
             0
         );
+        setButtonGroupHorzPadding(m_menuButtons, m_internalSettings->menuButtonHorzPadding());
         m_menuButtons->setPos(availableRect.topLeft());
         m_menuButtons->setSpacing(0);
         m_menuButtons->updateOverflow(availableRect);
@@ -639,7 +666,9 @@ int Decoration::titleBarHeight() const
 
 int Decoration::appMenuButtonHorzPadding() const
 {
-    return settings()->smallSpacing();
+    // smallSpacing is scaled by dpr with a min of 2px.
+    // So we need to divide our "pixel units" by 2 before scaling by it.
+    return settings()->smallSpacing() * m_internalSettings->menuButtonHorzPadding() / 2;
 }
 
 int Decoration::appMenuCaptionSpacing() const

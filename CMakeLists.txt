@@ -16,7 +16,7 @@ include (KDEInstallDirs)
 include (KDECMakeSettings)
 include (KDECompilerSettings NO_POLICY_SCOPE)
 
-set(QT_MIN_VERSION "5.12.0")
+set(QT_MIN_VERSION "5.9.0")
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Widgets
     DBus

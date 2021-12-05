@@ -44,9 +44,7 @@ TextButton::TextButton(Decoration *decoration, const int buttonIndex, QObject *p
 {
     const auto *deco = qobject_cast<Decoration *>(decoration);
 
-    const int horzPadding = deco->appMenuButtonHorzPadding();
-    padding()->setLeft(horzPadding);
-    padding()->setRight(horzPadding);
+    setHorzPadding(deco->appMenuButtonHorzPadding());
 
     setVisible(true);
 }

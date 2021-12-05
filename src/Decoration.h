@@ -82,6 +82,8 @@ private:
     void updateTitleBar();
     void updateTitleBarHoverState();
     void setButtonGroupHeight(KDecoration2::DecorationButtonGroup *buttonGroup, int buttonHeight);
+    void setButtonGroupHorzPadding(KDecoration2::DecorationButtonGroup *buttonGroup, int value);
+    void setButtonGroupVertPadding(KDecoration2::DecorationButtonGroup *buttonGroup, int value);
     void updateButtonHeight();
     void updateButtonsGeometry();
     void setButtonGroupAnimation(KDecoration2::DecorationButtonGroup *buttonGroup, bool enabled, int duration);

@@ -144,6 +144,12 @@ void ConfigurationModule::init()
     menuAlwaysShowGroup->addButton(menuAlwaysShow);
     menuAlwaysShowGroup->addButton(menuRevealOnHover);
 
+    QSpinBox *menuButtonHorzPadding = new QSpinBox(menuTab);
+    menuButtonHorzPadding->setMinimum(0);
+    menuButtonHorzPadding->setMaximum(INT_MAX);
+    menuButtonHorzPadding->setObjectName(QStringLiteral("kcfg_MenuButtonHorzPadding"));
+    menuForm->addRow(i18n("Padding:"), menuButtonHorzPadding);
+
 
     //--- Animations
     QWidget *animationsTab = new QWidget(tabWidget);
@@ -220,6 +226,12 @@ void ConfigurationModule::init()
         m_menuAlwaysShow,
         true,
         QStringLiteral("MenuAlwaysShow")
+    );
+    skel->addItemInt(
+        QStringLiteral("MenuButtonHorzPadding"),
+        m_menuButtonHorzPadding,
+        1,
+        QStringLiteral("MenuButtonHorzPadding")
     );
     skel->addItemBool(
         QStringLiteral("AnimationsEnabled"),

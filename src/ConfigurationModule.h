@@ -40,6 +40,7 @@ private:
     double m_activeOpacity;
     double m_inactiveOpacity;
     bool m_menuAlwaysShow;
+    int m_menuButtonHorzPadding;
     bool m_animationsEnabled;
     int m_animationsDuration;
     int m_shadowSize;
