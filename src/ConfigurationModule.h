@@ -46,6 +46,7 @@ private:
     int m_shadowSize;
     int m_shadowStrength;
     QColor m_shadowColor;
+    bool m_circleClose;
 };
 
 } // namespace Material

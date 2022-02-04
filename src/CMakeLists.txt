@@ -109,12 +109,12 @@ target_link_libraries (breezelimdeco
 )
 if (Qt6_FOUND)
     # The QX11Info class has been removed.
-    target_link_libraries (materialdecoration
+    target_link_libraries (breezelimdeco
         PUBLIC
             Qt${QT_VERSION_MAJOR}::GuiPrivate
     )
 elseif(Qt5_FOUND)
-    target_link_libraries (materialdecoration
+    target_link_libraries (breezelimdeco
         PUBLIC
             Qt${QT_VERSION_MAJOR}::X11Extras
     )

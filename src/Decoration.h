@@ -61,6 +61,8 @@ public:
 
     void paint(QPainter *painter, const QRect &repaintRegion) override;
 
+    bool isCloseButtonCircled();
+
 public slots:
     void init() override;
     void reconfigure();

@@ -57,6 +57,7 @@ ConfigurationModule::ConfigurationModule(QWidget *parent, const QVariantList &ar
     , m_titleAlignment(InternalSettings::AlignCenterFullWidth)
     , m_buttonSize(InternalSettings::ButtonDefault)
     , m_shadowSize(InternalSettings::ShadowVeryLarge)
+    , m_circleClose(false)
 {
     init();
 }
@@ -99,6 +100,11 @@ void ConfigurationModule::init()
     buttonSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Button size:", "Very Large"));
     buttonSizes->setObjectName(QStringLiteral("kcfg_ButtonSize"));
     generalForm->addRow(i18nd("breeze_kwin_deco", "B&utton size:"), buttonSizes);
+
+    QCheckBox *closeButtonCircle = new QCheckBox(generalTab);
+    closeButtonCircle->setText(i18n("Show circle around close button"));
+    closeButtonCircle->setObjectName(QStringLiteral("kcfg_CloseButtonCircle"));
+    generalForm->addRow(QStringLiteral(""), closeButtonCircle);
 
     QDoubleSpinBox *activeOpacity = new QDoubleSpinBox(generalTab);
     activeOpacity->setMinimum(0.0);
@@ -209,6 +215,14 @@ void ConfigurationModule::init()
         InternalSettings::ButtonDefault,
         QStringLiteral("ButtonSize")
     );
+
+    skel->addItemBool(
+        QStringLiteral("CloseButtonCircle"),
+        m_circleClose,
+        false,
+        QStringLiteral("CloseButtonCircle")
+    );
+
     skel->addItemDouble(
         QStringLiteral("ActiveOpacity"),
         m_activeOpacity,

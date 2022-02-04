@@ -47,7 +47,6 @@
 #include <QVariantAnimation>
 #include <QtMath> // qFloor
 
-
 namespace Material
 {
 
@@ -155,7 +154,6 @@ KDecoration2::DecorationButton* Button::create(KDecoration2::DecorationButtonTyp
 
     switch (type) {
     case KDecoration2::DecorationButtonType::Menu:
-    // case KDecoration2::DecorationButtonType::ApplicationMenu:
     case KDecoration2::DecorationButtonType::OnAllDesktops:
     case KDecoration2::DecorationButtonType::ContextHelp:
     case KDecoration2::DecorationButtonType::Shade:
@@ -336,14 +334,16 @@ void Button::setPenWidth(QPainter *painter, const qreal gridUnit, const qreal sc
         
         QColor returnVal;
         QColor normalColor = QColor(0,0,0,0);
-        auto c = d->client().data();
+        auto c = d->client().toStrongRef().data();
+        bool circleClose = d->isCloseButtonCircled();
+
         QColor redColor( c->color( KDecoration2::ColorGroup::Warning, KDecoration2::ColorRole::Foreground ) );
 
         if (type() == KDecoration2::DecorationButtonType::Menu) {
             returnVal= normalColor;
         } else if( isPressed() ) {
 
-            if( type() == KDecoration2::DecorationButtonType::Close ) returnVal = redColor.darker();
+            if( type() == KDecoration2::DecorationButtonType::Close) returnVal = redColor.darker();
             else returnVal = KColorUtils::mix( normalColor, d->titleBarForegroundColor(), 0.5 );
 
         } else if( isChecked() && type() != KDecoration2::DecorationButtonType::Maximize ) {
@@ -355,7 +355,7 @@ void Button::setPenWidth(QPainter *painter, const qreal gridUnit, const qreal sc
             if( type() == KDecoration2::DecorationButtonType::Close ) {return c->isActive() ? redColor.lighter() : redColor;}
             else {returnVal = d->titleBarForegroundColor();}
         } else {
-            if (type() == KDecoration2::DecorationButtonType::Close) {
+            if (type() == KDecoration2::DecorationButtonType::Close && circleClose) {
                 returnVal = c->isActive() ? redColor : d->titleBarForegroundColor();
             } else {
                 returnVal = normalColor;
@@ -369,6 +369,7 @@ void Button::setPenWidth(QPainter *painter, const qreal gridUnit, const qreal sc
     QColor Button::foregroundColor() const
     {
         auto d = qobject_cast<Decoration*>( decoration() );
+        bool circleClose = d->isCloseButtonCircled();
         if( !d ) {
 
             return QColor();
@@ -385,7 +386,7 @@ void Button::setPenWidth(QPainter *painter, const qreal gridUnit, const qreal sc
 
             return d->titleBarBackgroundColor();
 
-        } else if (type() == KDecoration2::DecorationButtonType::Close) {
+        } else if (type() == KDecoration2::DecorationButtonType::Close && circleClose) {
             return d->titleBarBackgroundColor();
         } else {
 

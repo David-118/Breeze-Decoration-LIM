@@ -71,6 +71,7 @@ public:
 
     bool animationEnabled() const;
     void setAnimationEnabled(bool value);
+    void setCircleClose(bool isCircled);
 
     int animationDuration() const;
     void setAnimationDuration(int duration);

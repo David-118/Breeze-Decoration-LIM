@@ -395,6 +395,7 @@ void Decoration::updateBorders()
     setBorders(borders);
 }
 
+
 void Decoration::updateResizeBorders()
 {
     QMargins borders;
@@ -511,6 +512,7 @@ void Decoration::updateButtonsGeometry()
         m_menuButtons->setPos(availableRect.topLeft());
         m_menuButtons->setSpacing(0);
         m_menuButtons->updateOverflow(availableRect);
+        
     }
 
     update();
@@ -1097,6 +1099,11 @@ void Decoration::paintOutline(QPainter *painter, const QRect &repaintRegion) con
     painter->setPen(outlineColor);
     painter->drawRect( rect().adjusted( 0, 0, -1, -1 ) );
     painter->restore();
+}
+
+bool Decoration::isCloseButtonCircled() 
+{
+    return this->m_internalSettings->closeButtonCircle();
 }
 
 } // namespace Material
