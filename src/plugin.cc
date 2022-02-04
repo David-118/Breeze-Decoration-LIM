@@ -27,8 +27,8 @@ K_PLUGIN_FACTORY_WITH_JSON(
     MaterialDecorationFactory,
     "material.json",
     registerPlugin<Material::Decoration>();
-    registerPlugin<Material::Button>(QStringLiteral("button"));
-    registerPlugin<Material::ConfigurationModule>(QStringLiteral("kcmodule"));
+    registerPlugin<Material::Button>();
+    registerPlugin<Material::ConfigurationModule>();
 );
 
 #include "plugin.moc"

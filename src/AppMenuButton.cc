@@ -32,8 +32,6 @@
 
 // Qt
 #include <QDebug>
-#include <QMouseEvent>
-#include <QX11Info>
 
 
 namespace Material

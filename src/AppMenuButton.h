@@ -20,10 +20,6 @@
 // own
 #include "Button.h"
 
-// Qt
-#include <QMouseEvent>
-#include <QPoint>
-
 namespace Material
 {
 
