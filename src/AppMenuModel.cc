@@ -29,6 +29,14 @@
 #include "Material.h"
 #include "BuildConfig.h"
 
+// KF
+#include <KWindowSystem>
+// In KF5 5.101, KWindowSystem moved several signals to KX11Extras
+// Eg: https://invent.kde.org/frameworks/kwindowsystem/-/commit/7cfd7c36eb017242d7a0202db82895be6b8fb81c
+#if HAVE_KF5_101 // KX11Extras
+#include <KX11Extras>
+#endif
+
 // Qt
 #include <QAction>
 #include <QDebug>
@@ -42,7 +50,11 @@
 #include <dbusmenuimporter.h>
 
 #if HAVE_X11
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <private/qtx11extras_p.h>
+#else
 #include <QX11Info>
+#endif
 #include <xcb/xcb.h>
 #endif
 
@@ -119,17 +131,27 @@ void AppMenuModel::x11Init()
     connect(this, &AppMenuModel::winIdChanged,
             this, &AppMenuModel::onWinIdChanged);
 
+// In KF5 5.101, KWindowSystem moved several signals to KX11Extras
+// Eg: https://invent.kde.org/frameworks/kwindowsystem/-/commit/7cfd7c36eb017242d7a0202db82895be6b8fb81c
+#if HAVE_KF5_101 // KX11Extras
     // Select non-deprecated overloaded method. Uses coding pattern from:
-    // https://github.com/KDE/plasma-workspace/blame/master/libtaskmanager/xwindowsystemeventbatcher.cpp#L42
-    void (KWindowSystem::*myWindowChangeSignal)(WId window, NET::Properties properties, NET::Properties2 properties2) = &KWindowSystem::windowChanged;
-    connect(KWindowSystem::self(), myWindowChangeSignal,
+    // https://invent.kde.org/plasma/plasma-workspace/blame/master/libtaskmanager/xwindowsystemeventbatcher.cpp#L30
+    void (KX11Extras::*myWindowChangeSignal)(WId window, NET::Properties properties, NET::Properties2 properties2) = &KX11Extras::windowChanged;
+    connect(KX11Extras::self(), myWindowChangeSignal,
             this, &AppMenuModel::onX11WindowChanged);
 
     // There are apps that are not releasing their menu properly after closing
     // and as such their menu is still shown even though the app does not exist
     // any more. Such apps are Java based e.g. smartgit
+    connect(KX11Extras::self(), &KX11Extras::windowRemoved,
+            this, &AppMenuModel::onX11WindowRemoved);
+#else // KF5 5.100 KWindowSystem
+    void (KWindowSystem::*myWindowChangeSignal)(WId window, NET::Properties properties, NET::Properties2 properties2) = &KWindowSystem::windowChanged;
+    connect(KWindowSystem::self(), myWindowChangeSignal,
+            this, &AppMenuModel::onX11WindowChanged);
     connect(KWindowSystem::self(), &KWindowSystem::windowRemoved,
             this, &AppMenuModel::onX11WindowRemoved);
+#endif
 
     connect(this, &AppMenuModel::modelNeedsUpdate, this, [this] {
         if (!m_updatePending) {

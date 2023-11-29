@@ -34,19 +34,28 @@
 #include <KDecoration2/DecorationSettings>
 #include <KDecoration2/DecorationShadow>
 
+// KF
+#include <KWindowSystem>
+
 // Qt
 #include <QApplication>
 #include <QDebug>
 #include <QHoverEvent>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QRegion>
 #include <QSharedPointer>
 #include <QWheelEvent>
 
 // X11
-#include <xcb/xcb.h>
+#if HAVE_X11
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <private/qtx11extras_p.h>
+#else
 #include <QX11Info>
-
+#endif
+#include <xcb/xcb.h>
+#endif
 
 namespace Material
 {
@@ -197,6 +206,7 @@ void Decoration::paint(QPainter *painter, const QRect &repaintRegion)
     if (settings()->borderSize() >= KDecoration2::BorderSize::Normal) {
         paintOutline(painter, repaintRegion);
     }
+    updateBlur();
 }
 
 void Decoration::init()
@@ -316,7 +326,7 @@ void Decoration::hoverEnterEvent(QHoverEvent *event)
 {
     KDecoration2::Decoration::hoverEnterEvent(event);
     qCDebug(category) << "Decoration::hoverEnterEvent" << event;
-
+    updateBlur();
     // m_menuButtons->setHovered(true);
 }
 
@@ -342,6 +352,7 @@ void Decoration::hoverMoveEvent(QHoverEvent *event)
     // } else if (wasHovered && contains) {
     //     // HoverMove
     // }
+    updateBlur();
 }
 
 void Decoration::mouseReleaseEvent(QMouseEvent *event)
@@ -350,6 +361,7 @@ void Decoration::mouseReleaseEvent(QMouseEvent *event)
     // qCDebug(category) << "Decoration::mouseReleaseEvent" << event;
 
     resetDragMove();
+    updateBlur();
 }
 
 void Decoration::hoverLeaveEvent(QHoverEvent *event)
@@ -358,7 +370,7 @@ void Decoration::hoverLeaveEvent(QHoverEvent *event)
     qCDebug(category) << "Decoration::hoverLeaveEvent" << event;
 
     resetDragMove();
-
+    updateBlur();
     // m_menuButtons->setHovered(false);
 }
 
@@ -382,6 +394,13 @@ void Decoration::onSectionUnderMouseChanged(const Qt::WindowFrameSection value)
     Q_UNUSED(value);
     // qCDebug(category) << "onSectionUnderMouseChanged" << value;
     updateTitleBarHoverState();
+}
+
+void Decoration::updateBlur()
+{
+#if HAVE_KDecoration2_5_25
+    setBlurRegion(QRegion(0, 0, size().width(), size().height()));
+#endif
 }
 
 void Decoration::updateBorders()

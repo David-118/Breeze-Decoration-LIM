@@ -32,6 +32,9 @@
 #include <KDecoration2/DecorationButton>
 #include <KDecoration2/DecorationButtonGroup>
 
+// KF
+#include <KWindowSystem>
+
 // Qt
 #include <QAction>
 #include <QDebug>

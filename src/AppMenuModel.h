@@ -32,9 +32,6 @@
 #include <QRect>
 #include <QStringList>
 
-// KF
-#include <KWindowSystem>
-
 
 namespace Material
 {
