@@ -9,7 +9,7 @@ Please note that I have only updated the close button, maximize button and minim
 
 This project is a fork of [https://github.com/Zren/material-decoration/](https://github.com/Zren/material-decoration/)
 
-Much of the new code can be is a modfied from [https://github.com/KDE/breeze/](https://github.com/KDE/breeze/)
+Much of the new code can be is a modfied from [https://invent.kde.org/plasma/breeze](https://invent.kde.org/plasma/breeze)
 
 ### Locally Integrated Menus
 
