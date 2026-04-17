@@ -1,3 +1,12 @@
+# This project no longer works and is unmaintained
+
+This project has not worked since at least Plasma 6, possibly before.
+The upstream also appears to unmaintained. If you want a theme with LIM support
+consider looking at [https://github.com/guiodic/material-decoration](https://github.com/guiodic/material-decoration)
+
+If anybody the breeze windows controls with this I encourage you to try yourself. I had almost no c++ experience in a large project when starting this
+and no knowledge of the KDE/Qt libraries used here. I simply made it by taking the working upstream and adding drawing code from the breeze theme. It was rough and did
+not look quite identical to the original, but worked while I used it. If somebody hasn't done it yet I encourage you to have a go at the same.
 
 ![Demo](data/preview.png)
 
